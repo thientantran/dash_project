@@ -49,3 +49,6 @@ def parse_contents(contents, filename, date):
         ]), df
     else:
         return html.Div(output['data']), pd.DataFrame()
+
+def tranform_df_to_json(data):
+    return {column:data[column].to_list() for column in data.columns}
