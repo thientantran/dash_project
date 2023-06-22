@@ -4,7 +4,9 @@
 # )
 from dash import Dash, dcc, html, Input, Output,callback, State
 import functions
-import functions_callback
+import plot_functions
+import pandas as pd
+import plotly.express as px
 app = Dash(__name__, external_scripts=['https://cdn.tailwindcss.com', '/assets/style.css'])
 
 app.layout = html.Div([
@@ -12,7 +14,7 @@ app.layout = html.Div([
         html.Nav(children=[
             html.Div(children=[
                 html.A(children=[
-                    html.Span(children="TAN TRAN", className="self-center text-xl font-semibold whitespace-nowrap dark:text-white")
+                    html.Span(children="MICROBIOME TEAM", className="self-center text-xl font-semibold whitespace-nowrap dark:text-white")
                     ],href="https://github.com/thientantran", className='flex items-center',),
                 html.Div(children='DASHBOARD', className = "inline-block dark:text-white text-xl")
             ], className="flex items-center justify-between"),
@@ -47,27 +49,48 @@ app.layout = html.Div([
         ])
         
     ]),
-    html.Div(id='output'),
-    html.Div(id='output-data-upload')
+    html.Div([
+        html.Div(id='output-data-upload'),
+        html.Div(className='grid grid-cols-2 gap-x-3',children=[
+            html.Div(id='scatter-plot'),
+            html.Div(id='histogram-plot')
+            ]),
+        html.Div(id='output'),
+    ], style={"margin":'10px'}),
     
+    dcc.Store(id='data-frame-store')
 ])
-@callback(Output('output-data-upload', 'children'),
+@callback(Output('data-frame-store', 'data'),
+    Output('output-data-upload', 'children'),
+          Output("column-1",'options'),
+          Output("column-2",'options'),
               Input('upload-data', 'contents'),
               State('upload-data', 'filename'),
               State('upload-data', 'last_modified'))
 def update_output_1_input(content, name, date):
     if content is not None:
-        children = functions.parse_contents(content, name, date)
-        return children
-
+        children, data = functions.parse_contents(content, name, date)
+        columns = list(data.columns)
+        dict_data = {column:data[column].to_list() for column in data.columns}
+        return dict_data,children, columns, columns
+    else:
+        return None,html.Div("Please import the data"), list(),list()
 @callback(
-    Output('output','children'),
+    Output('scatter-plot','children'),
+    Output('histogram-plot','children'),
+    Input('data-frame-store', 'data'),
     Input('submit-button-state', 'n_clicks'),
     State('column-1','value'),
     State('column-2', 'value')
 )
 
-def generate(n_clicks,value1, value2):
-    return f"column 1 is {value1} and columns 2 is {value2}"
+def generate_plot(data,n_clicks,value1, value2):
+    if value1 is not None:
+        df = pd.DataFrame(data)
+        scatter_figure = plot_functions.scatter_plot(df, value1, value2)
+        histogram_figure = plot_functions.histogram_plot(df,value1)
+        return scatter_figure, histogram_figure
+    else:
+        return None,None
 if __name__ == "__main__":
     app.run_server(debug=True)
