@@ -1,0 +1,33 @@
+.dashboard_upload{
+    height: 60px;
+    line-height: 60px;
+    border-width: 1px;
+    border-style: dashed;
+    border-radius: 5px;
+    text-align: center;
+    margin: 10px
+}
+
+.dashboard_dropdown{
+    text-align: center;
+    margin: 10px 0px;
+    /* height: 60px;
+    line-height: 60px; */
+}
+
+#column-1.dash-dropdown,#column-1 .Select,#column-1 .Select-control,#column-1 .Select-multi-value-wrapper,#column-1 .Select-placeholder {
+    height: 100%;
+}
+#column-1 .Select-placeholder,#column-1 .Select-value,#column-1 .Select-input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#column-2.dash-dropdown,#column-2 .Select,#column-2 .Select-control,#column-2 .Select-multi-value-wrapper,#column-2 .Select-placeholder {
+    height: 100%;
+}
+#column-2 .Select-placeholder, #column-2 .Select-value,#column-2 .Select-input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
