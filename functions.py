@@ -22,12 +22,9 @@ def get_data_frame(contents, filename):
     except Exception as e:
         print(e)
         return {"result": False, "data": "There was an error processing this file."}
-        
-def parse_contents(contents, filename, date):
-    output = get_data_frame(contents, filename)
-    if output['result'] == True:
-        df = output['data']
-        return html.Div([
+
+def transform_to_table(df):
+    return html.Div([
             # html.H5(filename),
             html.H5(f"There is {df.shape[0]} rows and {df.shape[1]} columns"),
             # html.H6(datetime.datetime.fromtimestamp(date)),
@@ -46,7 +43,13 @@ def parse_contents(contents, filename, date):
             #     'whiteSpace': 'pre-wrap',
             #     'wordBreak': 'break-all'
             # })
-        ]), df
+        ])
+        
+def parse_contents(contents, filename, date):
+    output = get_data_frame(contents, filename)
+    if output['result'] == True:
+        df = output['data']
+        return transform_to_table(df),df
     else:
         return html.Div(output['data']), pd.DataFrame()
 
