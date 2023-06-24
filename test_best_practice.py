@@ -126,18 +126,21 @@ def update_tabel_and_columns(data):
 )
 
 def generate_plot(data):
-    value1 = data['value1']
-    value2 = data['value2']
-    if value1 is not None:
-        df = pd.DataFrame(data['data'])
-        if value2 is not None:
-            scatter_figure = plot_functions.scatter_plot(df, value2, value1)
+    if data is not None:
+        value1 = data['value1']
+        value2 = data['value2']
+        if value1 is not None:
+            df = pd.DataFrame(data['data'])
+            if value2 is not None:
+                scatter_figure = plot_functions.scatter_plot(df, value2, value1)
+            else:
+                scatter_figure = plot_functions.scatter_plot(df, value1, value1)
+            histogram_figure = plot_functions.histogram_plot(df,value1)
+            return scatter_figure, histogram_figure
         else:
-            scatter_figure = plot_functions.scatter_plot(df, value1, value1)
-        histogram_figure = plot_functions.histogram_plot(df,value1)
-        return scatter_figure, histogram_figure
+            return None,None
     else:
-        return None,None
+        return None, None
 
 
 if __name__ == "__main__":
