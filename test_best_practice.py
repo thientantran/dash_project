@@ -34,7 +34,7 @@ app.layout = html.Div([
         # multiple=True
     )),
         html.Div(
-            dcc.Dropdown(['1','2','3'], id='column-1', placeholder="Please choose dependent variable"),className='dashboard_dropdown col-span-2'
+            dcc.Dropdown(id='column-1', placeholder="Please choose dependent variable"),className='dashboard_dropdown col-span-2'
             # html.Select(id='column-1', className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full h-full p-2.5',children=[
             #     html.Option(value='ko co gi',children="Select the value"),
             #     html.Option(value='1', children='1'),
@@ -43,7 +43,7 @@ app.layout = html.Div([
             # ]),className='dashboard_dropdown'
             ),
         html.Div(
-            dcc.Dropdown(['1','2','3'], id='column-2', placeholder="Please choose independent variable"), className='dashboard_dropdown col-span-2'
+            dcc.Dropdown(id='column-2', placeholder="Please choose independent variable"), className='dashboard_dropdown col-span-2'
             ),
         html.Div(className='dashboard_dropdown mr-2.5',children=[
             html.Button(className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 w-full h-full", children=['Submit'],id='submit-button-state', n_clicks=0)
@@ -53,8 +53,8 @@ app.layout = html.Div([
     html.Div([
         html.Div(id='output-data-upload'),
         html.Div(className='grid grid-cols-2 gap-x-3',children=[
-            html.Div(id='scatter-plot',className='shadow-xl mt-2.5 border rounded-lg'),
-            html.Div(id='histogram-plot',className='shadow-xl mt-2.5 border rounded-lg')
+            html.Div(id='scatter-plot'),
+            html.Div(id='histogram-plot')
             ]),
         html.Div(id='output'),
     ], style={"margin":'10px'}),
